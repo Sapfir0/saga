@@ -1,10 +1,13 @@
 import express from "express"
 import bodyParser from 'body-parser';
+import cors from 'cors';
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
+app.use(cors());
+
 
 const colors = ["red", "green", "blue", "cyan", "magento", "yellow"]
 
@@ -28,7 +31,8 @@ app.post('/getColor',  urlencodedParser,  function (req, res) {
     }
 });
 
+const port = 7080
 
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000!');
+app.listen(port, function () {
+    console.log(`Example app listening on port ${port}!`);
 });
