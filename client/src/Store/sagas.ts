@@ -3,12 +3,9 @@ import {LOAD_DATA, putData} from "./actions";
 import axios from "axios"
 import {serverUrl} from "../config/config";
 
-async function getColors() {
-    return await axios.get(serverUrl + "/getColors")
-}
 
 function* workerLoadData() {
-    const data = yield call(getColors)
+    const data = yield axios.get(serverUrl + "/getColors") // тут нет await, меня это пугает немного
 
     yield put(putData(data))
 }

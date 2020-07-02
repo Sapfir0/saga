@@ -1,14 +1,27 @@
 import {PUT_DATA} from "./actions";
 
-const initialState = {
-    data: []
+interface IStore extends IColor {
+
 }
 
-export const reducer = (state = initialState, action: any) => {
+interface IColor {
+    colors: string[] | string
+}
+
+interface ActionType {
+    type: string;
+    payload: any;
+}
+
+const initialState : IStore = {
+    colors: []
+}
+
+export const reducer = (state = initialState, action: ActionType) => {
     if (action.type === PUT_DATA) {
         return {
             ...state,
-            data: action.payload
+            colors: action.payload
         }
     }
     return state;

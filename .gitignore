@@ -8,6 +8,8 @@
 build
 dist
 node_modules
+.idea
+yarn.lock
 
 # testing
 /coverage

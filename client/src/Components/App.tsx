@@ -3,11 +3,10 @@ import {Provider} from "react-redux"
 import {createStore, applyMiddleware} from "redux";
 import './App.css';
 import logger from "redux-logger"
-import {serverUrl} from "./config/config";
-import Colors from "./Components/Colors/Colors";
-import {reducer} from "./Store/reducers";
+import Colors from "./Colors/Colors";
+import {reducer} from "../Store/reducers";
 import createSagaMiddleware from "redux-saga"
-import {watchLoadData} from "./Store/sagas";
+import {watchLoadData} from "../Store/sagas";
 
 
 function App() {
@@ -18,6 +17,7 @@ function App() {
     return (
         <Provider store={store}>
             <Colors />
+
         </Provider>)
 
 }
