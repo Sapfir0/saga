@@ -4,7 +4,7 @@
 export function* query(promise: Promise<any>) {
     const data = yield promise
     console.log(data)
-    const message = parseCode(data.statusCode) // я бы сделал енум, но нет
+    const message = parseCode(data.status) // я бы сделал енум, но нет
     console.log(message)
     return yield data
 }
