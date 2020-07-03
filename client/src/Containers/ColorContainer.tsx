@@ -14,8 +14,6 @@ function ColorsContainer(props: IProps) {
     const onClick = () => {
         dispatch(loadColors())
     }
-
-
     return <Colors onClick={onClick} colors={props.colors}/>
 }
 
