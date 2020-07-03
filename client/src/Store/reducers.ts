@@ -9,7 +9,7 @@ export interface IColor {
     color: string
 }
 
-interface ActionType {
+export interface ActionType {
     type: string;
     payload: any;
 }

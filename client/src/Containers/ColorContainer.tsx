@@ -1,5 +1,5 @@
 import {connect, useDispatch} from "react-redux";
-import {loadData} from "../Store/actions";
+import {loadColors} from "../Store/actions";
 import {Colors} from "../Components/Colors/Colors";
 import React from "react";
 import {store} from "../Store";
@@ -8,15 +8,15 @@ import {IColor} from "../Store/reducers";
 function ColorContainer() {
     const dispatch = useDispatch()
     const onClick = () => {
-        dispatch(loadData())
+        dispatch(loadColors())
     }
 
-    return <Colors onClick={onClick} />
+    return <Colors onClick={onClick}  colors={store.getState().colors}/>
 }
 
 
 const mapDispatchToProps = {
-    changedColors: loadData
+    changedColors: loadColors
 }
 
 const changeColorAction = (state: {colors: IColor}) => {
@@ -25,4 +25,4 @@ const changeColorAction = (state: {colors: IColor}) => {
     }
 }
 
-export default connect(changeColorAction)(ColorContainer)
+export default connect(changeColorAction, mapDispatchToProps)(ColorContainer)

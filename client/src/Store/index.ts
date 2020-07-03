@@ -2,9 +2,10 @@ import createSagaMiddleware from "redux-saga";
 import {applyMiddleware, createStore} from "redux";
 import {reducer} from "./reducers";
 import logger from "redux-logger";
-import {watchLoadData} from "./sagas";
+import {watchLoadColor, watchLoadColors} from "./sagas";
 
 const sagaMiddleware = createSagaMiddleware()
 export const store = createStore(reducer, applyMiddleware(logger, sagaMiddleware))
-sagaMiddleware.run(watchLoadData)
+sagaMiddleware.run(watchLoadColors)
+sagaMiddleware.run(watchLoadColor)
 

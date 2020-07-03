@@ -6,7 +6,7 @@ import logger from "redux-logger"
 import Colors from "../Containers/ColorContainer";
 import {reducer} from "../Store/reducers";
 import createSagaMiddleware from "redux-saga"
-import {watchLoadData} from "../Store/sagas";
+import {watchLoadColors} from "../Store/sagas";
 import {store} from "../Store";
 import CurrentColor from "../Containers/CurrentColorContainer"
 
