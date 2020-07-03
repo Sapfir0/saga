@@ -3,23 +3,20 @@ import {LOAD_COLORS, getColors, getColor, LOAD_COLOR} from "./actions";
 import axios from "axios"
 import {serverUrl} from "../config/config";
 import {ActionType} from "./typings";
+import {get, post} from "../services/InteractionService";
 
 
 function* workerLoadColors() {
-    const data = yield axios.get(serverUrl + "/getColors") // хм yield вместо await, меня это пугает немного
+    const data = yield get("getColors")
     yield put(getColors(data.data))
 }
 
 
 function* workerLoadColor(action: ActionType) {
     const id = action.payload.id
-    try {
-        const data = yield axios.post(serverUrl + "/getColor", {id: id})
-        yield put(getColor(data.data))
-    }
-    catch (e) {
-        yield put(getColor("Color not found"))
-    }
+
+    const data = yield post("getColor", {id: id})
+    yield put(getColor(data.data))
 }
 
 
