@@ -1,11 +1,12 @@
-import {PUT_DATA} from "./actions";
+import {GET_COLOR, GET_COLORS} from "./actions";
 
 interface IStore extends IColor {
 
 }
 
-interface IColor {
-    colors: string[] | string
+export interface IColor {
+    colors: string[]
+    color: string
 }
 
 interface ActionType {
@@ -14,14 +15,21 @@ interface ActionType {
 }
 
 const initialState : IStore = {
-    colors: []
+    colors: [],
+    color: ""
 }
 
 export const reducer = (state = initialState, action: ActionType) => {
-    if (action.type === PUT_DATA) {
+    if (action.type === GET_COLORS) {
         return {
             ...state,
             colors: action.payload
+        }
+    }
+    else if(action.type === GET_COLOR) {
+        return {
+            ...state,
+            color: action.payload
         }
     }
     return state;

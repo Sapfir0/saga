@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {connect, useDispatch} from "react-redux";
 import {loadData} from "../../Store/actions";
 import Button from "../Button/Button";
+import {IColor} from "../../Store/reducers";
 
 
 
@@ -13,10 +14,11 @@ interface IProps {
 }
 
 
-export function Colors({onClick} : IProps) {
+export default function CurrentColor({onClick} : IProps) {
+
     return <>
-        <Button onClick={onClick} text="Получить все цвета"/>
-        {/*{colors}*/}
+        <input placeholder="Введите id цвета от 1 до 5"/>
+        <Button onClick={onClick} text="Получить цвет"/>
     </>
 }
 
