@@ -3,11 +3,12 @@ import {LOAD_COLORS, getColors, getColor, LOAD_COLOR} from "./actions";
 import axios from "axios"
 import {serverUrl} from "../config/config";
 import {ActionType} from "./typings";
-import {get, post} from "../services/InteractionService";
+import InteractionService from "../services/InteractionService";
 
+const fetcher = new InteractionService()
 
 function* workerLoadColors() {
-    const data = yield get("getColors")
+    const data = yield fetcher.get("getColors")
     yield put(getColors(data.data))
 }
 
@@ -15,7 +16,7 @@ function* workerLoadColors() {
 function* workerLoadColor(action: ActionType) {
     const id = action.payload.id
 
-    const data = yield post("getColor", {id: id})
+    const data = yield fetcher.post("getColor", {id: id})
     yield put(getColor(data.data))
 }
 

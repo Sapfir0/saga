@@ -1,23 +1,29 @@
+import {statusCodes} from "./statusCodes";
 
-
-
-export function* query(promise: Promise<any>) {
-    const data = yield promise
-    console.log(data)
-    const message = parseCode(data.status) // я бы сделал енум, но нет
-    console.log(message)
-    return yield data
+interface IApiHelper<T> {
+    request: (promise: Promise<T>) => T
+    parseCode: (code: number) => string
 }
 
-export function parseCode(code: number) {
-    switch (code) {
-        case 200:
-            return "All is ok"
-        case 304:
-            return "Cached"
-        case 404:
-            return "Request fell"
-        case 500:
-            return "Server fell"
+
+class ApiHelper implements IApiHelper<any> {
+
+    request  = async(promise: Promise<any>) => {
+        const data = await promise
+        const message = this.parseCode(data.status)
+        console.log(message)
+        return await data
+    }
+
+    parseCode = (code: number) => {
+        if (code in statusCodes) {
+            return statusCodes[code]
+        }
+        else {
+            return "Undefined error with your request"
+        }
     }
 }
+
+export default ApiHelper
+
