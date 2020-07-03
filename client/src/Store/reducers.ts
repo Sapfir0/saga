@@ -1,18 +1,7 @@
 import {GET_COLOR, GET_COLORS} from "./actions";
+import {ActionType, IStore} from "./typings";
 
-interface IStore extends IColor {
 
-}
-
-export interface IColor {
-    colors: string[]
-    color: string
-}
-
-export interface ActionType {
-    type: string;
-    payload: any;
-}
 
 const initialState : IStore = {
     colors: [],
@@ -20,17 +9,18 @@ const initialState : IStore = {
 }
 
 export const reducer = (state = initialState, action: ActionType) => {
-    if (action.type === GET_COLORS) {
-        return {
-            ...state,
-            colors: action.payload
-        }
+    switch (action.type) {
+        case GET_COLORS:
+            return {
+                ...state,
+                colors: action.payload
+            }
+        case GET_COLOR:
+            return {
+                ...state,
+                color: action.payload
+            }
+        default:
+            return state;
     }
-    else if(action.type === GET_COLOR) {
-        return {
-            ...state,
-            color: action.payload
-        }
-    }
-    return state;
 }

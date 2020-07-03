@@ -3,7 +3,7 @@ import {loadColors} from "../Store/actions";
 import {Colors} from "../Components/Colors/Colors";
 import React from "react";
 import {store} from "../Store";
-import {IColor} from "../Store/reducers";
+import {IColor} from "../Store/typings";
 
 function ColorContainer() {
     const dispatch = useDispatch()

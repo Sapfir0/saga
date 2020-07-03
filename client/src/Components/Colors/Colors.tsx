@@ -15,7 +15,9 @@ interface IProps {
 export function Colors({onClick, colors} : IProps) {
     return <>
         <Button onClick={onClick} text="Получить все цвета"/>
-        {colors}
+        <ul>
+            {colors.map(c=><li key={c.toString()}> {c} </li>)}
+        </ul>
     </>
 }
 

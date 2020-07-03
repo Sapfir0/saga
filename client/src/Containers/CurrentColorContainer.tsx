@@ -1,16 +1,14 @@
 import {loadColor} from "../Store/actions";
-import {IColor} from "../Store/reducers";
 import {connect, useDispatch} from "react-redux";
-import {Colors} from "../Components/Colors/Colors";
 import React from "react";
 import CurrentColor from "../Components/CurrentColor/CurrentColor";
 import {store} from "../Store";
+import {IColor} from "../Store/typings";
 
 
 function CurrentColorContainer() {
     const dispatch = useDispatch()
     const onClick = (event: any, id: number) => {
-        console.log(id, event)
         dispatch(loadColor(id))
     }
 

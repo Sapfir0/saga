@@ -1,8 +1,8 @@
-import {takeEvery, put, call} from "redux-saga/effects"
+import {takeEvery, put, call, fork, all} from "redux-saga/effects"
 import {LOAD_COLORS, getColors, getColor, LOAD_COLOR} from "./actions";
 import axios from "axios"
 import {serverUrl} from "../config/config";
-import {ActionType} from "./reducers";
+import {ActionType} from "./typings";
 
 
 function* workerLoadColors() {
@@ -11,21 +11,21 @@ function* workerLoadColors() {
 }
 
 
-export function* watchLoadColors() {
-    yield takeEvery(LOAD_COLORS, workerLoadColors)
-}
-
-
-
 function* workerLoadColor(action: ActionType) {
-    console.log(action)
     const id = action.payload.id
-    const data = yield axios.post(serverUrl + "/getColor", {id: id})
-    yield put(getColor(data.data))
+    try {
+        const data = yield axios.post(serverUrl + "/getColor", {id: id})
+        yield put(getColor(data.data))
+    }
+    catch (e) {
+        yield put(getColor("Color not found"))
+    }
 }
 
 
-export function* watchLoadColor() {
-    //yield takeEvery(LOAD_COLOR, call(workerLoadColor, 2))
-    yield takeEvery(LOAD_COLOR, workerLoadColor)
+export function* rootSaga() {
+    yield all([
+        takeEvery(LOAD_COLOR, workerLoadColor),
+        takeEvery(LOAD_COLORS, workerLoadColors)
+    ])
 }
