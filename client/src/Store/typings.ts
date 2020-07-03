@@ -1,13 +1,13 @@
 import React from "react";
 
-export interface IStore extends IColor {
-
+export interface IStore  {
+    color: IColor
+    colors: IColors
 }
 
-export interface IColor {
-    colors: string[]
-    color: string
-}
+export type IColor = string
+export type IColors = string[]
+
 
 export interface ActionType {
     type: string;

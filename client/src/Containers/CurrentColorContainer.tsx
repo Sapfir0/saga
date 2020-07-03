@@ -5,18 +5,16 @@ import CurrentColor from "../Components/CurrentColor/CurrentColor";
 import {store} from "../Store";
 import {IColor} from "../Store/typings";
 
+interface IProps {
+    color: IColor
+}
 
-function CurrentColorContainer() {
+function CurrentColorContainer(props: IProps) {
     const dispatch = useDispatch()
     const onClick = (event: any, id: number) => {
         dispatch(loadColor(id))
     }
-
-    return <CurrentColor color={store.getState().color} onClick={onClick} />
-}
-
-const mapDispatchToProps = {
-    changedColors: loadColor
+    return <CurrentColor color={props.color} onClick={onClick} />
 }
 
 
@@ -26,4 +24,4 @@ const changeColorAction = (state: {color: IColor}) => {
     }
 }
 
-export default connect(changeColorAction, mapDispatchToProps)(CurrentColorContainer)
+export default connect(changeColorAction)(CurrentColorContainer)

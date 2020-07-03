@@ -3,26 +3,27 @@ import {loadColors} from "../Store/actions";
 import {Colors} from "../Components/Colors/Colors";
 import React from "react";
 import {store} from "../Store";
-import {IColor} from "../Store/typings";
+import {IColor, IColors} from "../Store/typings";
 
-function ColorContainer() {
+interface IProps  {
+    colors: IColors
+}
+
+function ColorsContainer(props: IProps) {
     const dispatch = useDispatch()
     const onClick = () => {
         dispatch(loadColors())
     }
 
-    return <Colors onClick={onClick}  colors={store.getState().colors}/>
+
+    return <Colors onClick={onClick} colors={props.colors}/>
 }
 
 
-const mapDispatchToProps = {
-    changedColors: loadColors
-}
-
-const changeColorAction = (state: {colors: IColor}) => {
+const changeColorAction = (state: {colors: IColors}) => {
     return {
         colors: state.colors
     }
 }
 
-export default connect(changeColorAction, mapDispatchToProps)(ColorContainer)
+export default connect(changeColorAction)(ColorsContainer)

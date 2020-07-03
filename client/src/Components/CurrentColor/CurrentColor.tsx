@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import {connect, useDispatch} from "react-redux";
 import Button from "../Button/Button";
-import {MouseClick} from "../../Store/typings";
+import {IColor, MouseClick} from "../../Store/typings";
 
 
 interface IProps {
     onClick: MouseClick
-    color: string
+    color: IColor
 }
 
 
