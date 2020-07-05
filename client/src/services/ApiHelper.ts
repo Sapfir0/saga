@@ -1,14 +1,10 @@
 import {statusCodes} from "./statusCodes";
-
-interface IApiHelper<T> {
-    request: (promise: Promise<T>) => T
-    parseCode: (code: number) => string
-}
+import {IApiHelper} from "./typings/IApiHelper";
 
 
 class ApiHelper implements IApiHelper<any> {
 
-    request  = async(promise: Promise<any>) => {
+    request  = async(promise: Promise<any>) => { // на самом деле, это должна быть генераторная функци но мне лень ее биндить ручками
         const data = await promise
         const message = this.parseCode(data.status)
         console.log(message)

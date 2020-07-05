@@ -2,15 +2,8 @@ import axios from "axios";
 import {serverUrl} from "../config/config";
 import {compose} from "redux";
 import ApiHelper from "./ApiHelper";
+import {IData, IInteractionService} from "./typings/IInteractionService";
 
-interface IData {
-    [name: string]: string | number | undefined;
-}
-
-interface IInteractionService {
-    get: (url: string) => any
-    post: (url: string, data: IData) => any
-}
 
 
 class InteractionService implements IInteractionService {
