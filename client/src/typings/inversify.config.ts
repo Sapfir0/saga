@@ -13,8 +13,8 @@ import {IActions} from "../Store/typings/IActions";
 
 const myContainer = new Container();
 
-myContainer.bind<IActions>(TYPES.Actions).to(Actions)
 myContainer.bind<IApiHelper>(TYPES.ApiHelper).to(ApiHelper)
+myContainer.bind<IActions>(TYPES.Actions).to(Actions)
 myContainer.bind<IInteractionService>(TYPES.InteractionService).to(InteractionService)
 myContainer.bind<ISaga>(TYPES.Saga).to(Saga)
 

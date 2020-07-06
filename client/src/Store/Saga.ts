@@ -1,12 +1,11 @@
 import {takeEvery, put, call, fork, all} from "redux-saga/effects"
+import {myContainer} from "../typings/inversify.config";
 import Actions from "./Actions";
 import {ActionTypePayload, IPayload} from "./typings";
 import InteractionService from "../services/InteractionService";
 import {LOAD_COLOR, LOAD_COLORS} from "./actionsName";
 import {ISaga} from "./typings/ISaga";
-import ApiHelper from "../services/ApiHelper";
 import {inject, injectable} from "inversify";
-import {myContainer} from "../typings/inversify.config";
 import {TYPES} from "../services/typings/types";
 
 

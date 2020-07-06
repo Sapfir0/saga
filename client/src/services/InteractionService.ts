@@ -10,10 +10,12 @@ import {TYPES} from "./typings/types";
 
 @injectable()
 class InteractionService implements IInteractionService {
-    @inject(TYPES.ApiHelper) private _api: ApiHelper
+    private _api: ApiHelper
 
-    constructor(api: ApiHelper) {
-        this._api = api
+    constructor(
+        @inject(TYPES.ApiHelper)  _api: ApiHelper
+    ) {
+        this._api = _api
     }
 
     public get = (url: string) => {
