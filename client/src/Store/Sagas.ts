@@ -3,10 +3,10 @@ import Actions from "./Actions";
 import {ActionType} from "./typings";
 import InteractionService from "../services/InteractionService";
 import {LOAD_COLOR, LOAD_COLORS} from "./actionsName";
-import {ISagas} from "./typings/ISagas";
+import {ISaga} from "./typings/ISaga";
 
 
-class Sagas implements ISagas {
+class Saga implements ISaga {
     private fetcher: InteractionService;
     private actions: Actions;
 
@@ -19,13 +19,13 @@ class Sagas implements ISagas {
         this.workerLoadColor = this.workerLoadColor.bind(this);
     }
 
-    *workerLoadColors() {
+    public *workerLoadColors() {
         const data = yield this.fetcher.get("getColors")
         yield put(this.actions.getColors(data.data))
     }
 
 
-    *workerLoadColor(action: ActionType) {
+    public *workerLoadColor(action: ActionType) {
         const id = action.payload.id
 
         const data = yield this.fetcher.post("getColor", {id: id})
@@ -35,7 +35,7 @@ class Sagas implements ISagas {
 }
 
 export default function* rootSaga() {
-    const sagas = new Sagas()
+    const sagas = new Saga()
     yield all([
         takeEvery(LOAD_COLOR, sagas.workerLoadColor),
         takeEvery(LOAD_COLORS, sagas.workerLoadColors)
