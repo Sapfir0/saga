@@ -5,15 +5,16 @@ import InteractionService from "../services/InteractionService";
 import {LOAD_COLOR, LOAD_COLORS} from "./actionsName";
 import {ISaga} from "./typings/ISaga";
 import ApiHelper from "../services/ApiHelper";
-import {injectable} from "inversify";
+import {inject, injectable} from "inversify";
 import {myContainer} from "../typings/inversify.config";
 import {TYPES} from "../services/typings/types";
 
 
 @injectable()
 class Saga implements ISaga {
-    private fetcher: InteractionService;
-    private actions: Actions;
+    @inject(TYPES.InteractionService) private fetcher: InteractionService
+    @inject(TYPES.Actions) private actions: Actions
+
 
     constructor(actions: Actions, fetcher: InteractionService) {
         this.actions = actions

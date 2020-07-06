@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "commonjs",
+    "module": "esnext",
     "outDir": "build",
     "rootDir": "src",
     "strict": true,
@@ -10,8 +10,6 @@
     "jsx": "react",
     "lib": [
       "dom",
-      "dom.iterable",
-      "esnext",
       "es6"
     ],
     "allowJs": true,
@@ -24,8 +22,8 @@
     "removeComments": true,
     "baseUrl": "src",
     "types": [
-      "reflect-metadata",
-      "node"
+      "node",
+      "reflect-metadata"
     ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
