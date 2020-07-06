@@ -1,13 +1,16 @@
 import createSagaMiddleware from "redux-saga";
-import {applyMiddleware, createStore} from "redux";
+import {applyMiddleware, compose, createStore} from "redux";
 import "../typings/inversify.config"
-import {reducer} from "./reducers";
+import mainReducer from "./mainReducer";
 import logger from "redux-logger";
 import rootSaga from "./Saga";
+import {colorReducer} from "./reducers/reducers";
 
 const sagaMiddleware = createSagaMiddleware()
-export const store = createStore(reducer, applyMiddleware(logger, sagaMiddleware))
+const middlewares = [logger, sagaMiddleware];
 
+export const store = compose(applyMiddleware(...middlewares))(createStore)(mainReducer);
+console.log(store.getState())
 
 sagaMiddleware.run(rootSaga)
 
