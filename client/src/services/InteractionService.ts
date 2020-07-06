@@ -10,13 +10,13 @@ class InteractionService implements IInteractionService {
     private api = new ApiHelper()
 
     public get = (url: string) => {
-        const composition = compose(this.api.request, axios.get)
-        return composition(`${serverUrl}/${url}`)
+        const a = axios.get(`${serverUrl}/${url}`)
+        return this.api.request(a)
     }
 
     public post = (url: string, data: IData) => {
-        const composition = compose(this.api.request, axios.post)
-        return composition(`${serverUrl}/${url}`, data)
+        const a = axios.post(`${serverUrl}/${url}`, data)
+        return this.api.request(a)
     }
 }
 

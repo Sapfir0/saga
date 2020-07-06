@@ -1,11 +1,11 @@
-import {ActionType} from "../typings";
+import {ActionTypePayload, ActionTypePure, IPayload} from "../typings";
 import {DTO} from "../../typings/common";
 
 
 export interface IActions {
-    getColor: (data: DTO) => ActionType
-    getColors: (data: DTO) => ActionType
-    loadColor: (id: number) => ActionType
-    loadColors: () => ActionType
+    getColor: (data: DTO) => ActionTypePure<DTO>
+    getColors: (data: DTO) =>  ActionTypePure<DTO>
+    loadColor: (id: number) =>  ActionTypePayload<IPayload>
+    loadColors: () => ActionTypePure<DTO>
 }
 

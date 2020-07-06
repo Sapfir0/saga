@@ -1,6 +1,6 @@
 import {takeEvery, put, call, fork, all} from "redux-saga/effects"
 import Actions from "./Actions";
-import {ActionType} from "./typings";
+import {ActionTypePayload, IPayload} from "./typings";
 import InteractionService from "../services/InteractionService";
 import {LOAD_COLOR, LOAD_COLORS} from "./actionsName";
 import {ISaga} from "./typings/ISaga";
@@ -25,7 +25,7 @@ class Saga implements ISaga {
     }
 
 
-    public *workerLoadColor(action: ActionType) {
+    public *workerLoadColor(action: ActionTypePayload<IPayload>) {
         const id = action.payload.id
 
         const data = yield this.fetcher.post("getColor", {id: id})

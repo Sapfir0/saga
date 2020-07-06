@@ -1,1 +1,1 @@
-export type DTO = any
+export type DTO = string[] | string

@@ -1,25 +1,24 @@
 import {GET_COLOR, GET_COLORS} from "./actionsName";
-import {ActionType, IStore} from "./typings";
-
-
+import {ActionTypePayload, ActionTypePure, IPayload, IStore} from "./typings";
+import {DTO} from "../typings/common";
 
 const initialState : IStore = {
     colors: [],
     color: ""
 }
 
-export const reducer = (state = initialState, action: ActionType) => {
+export const reducer = (state: IStore = initialState, action: ActionTypePure<DTO>) => {
     switch (action.type) {
         case GET_COLORS:
             return {
                 ...state,
                 colors: action.payload
-            }
+            } as IStore
         case GET_COLOR:
             return {
                 ...state,
                 color: action.payload
-            }
+            }  as IStore
         default:
             return state;
     }
