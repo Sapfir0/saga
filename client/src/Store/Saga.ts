@@ -4,16 +4,20 @@ import {ActionTypePayload, IPayload} from "./typings";
 import InteractionService from "../services/InteractionService";
 import {LOAD_COLOR, LOAD_COLORS} from "./actionsName";
 import {ISaga} from "./typings/ISaga";
+import ApiHelper from "../services/ApiHelper";
+import {injectable} from "inversify";
+import {myContainer} from "../typings/inversify.config";
+import {TYPES} from "../services/typings/types";
 
 
+@injectable()
 class Saga implements ISaga {
     private fetcher: InteractionService;
     private actions: Actions;
 
-
-    constructor() {
-        this.fetcher = new InteractionService()
-        this.actions = new Actions()
+    constructor(actions: Actions, fetcher: InteractionService) {
+        this.actions = actions
+        this.fetcher = fetcher
 
         this.workerLoadColors = this.workerLoadColors.bind(this);
         this.workerLoadColor = this.workerLoadColor.bind(this);
@@ -24,18 +28,16 @@ class Saga implements ISaga {
         yield put(this.actions.getColors(data.data))
     }
 
-
     public *workerLoadColor(action: ActionTypePayload<IPayload>) {
         const id = action.payload.id
 
         const data = yield this.fetcher.post("getColor", {id: id})
         yield put(this.actions.getColor(data.data))
     }
-
 }
 
 export default function* rootSaga() {
-    const sagas = new Saga()
+    const sagas = myContainer.get<Saga>(TYPES.Saga)
     yield all([
         takeEvery(LOAD_COLOR, sagas.workerLoadColor),
         takeEvery(LOAD_COLORS, sagas.workerLoadColors)
@@ -43,3 +45,4 @@ export default function* rootSaga() {
 }
 
 
+export {Saga}

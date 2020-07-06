@@ -1,6 +1,7 @@
+import {AxiosResponse} from "axios";
 
 
-export interface IApiHelper<T> {
-    request: (promise: Promise<T>) => Promise<T>
+export interface IApiHelper {
+    request: (promise: Promise<AxiosResponse>) => Promise<AxiosResponse>
     parseCode: (code: number) => string
 }

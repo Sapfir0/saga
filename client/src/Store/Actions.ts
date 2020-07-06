@@ -1,7 +1,10 @@
 import {GET_COLOR, GET_COLORS, LOAD_COLOR, LOAD_COLORS} from "./actionsName";
 import {IActions} from "./typings/IActions";
 import {DTO} from "../typings/common";
+import {injectable} from "inversify";
 
+
+@injectable()
 class Actions implements IActions {
     public getColors = (dataFromServer: DTO) => ({
         type: GET_COLORS,
