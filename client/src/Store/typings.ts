@@ -11,7 +11,7 @@ export type IColors = string[]
 
 export interface ActionType {
     type: string;
-    payload: any;
+    payload?: any;
 }
 
 export type MouseClick = (event: IMouseEvent, id: number) => void;

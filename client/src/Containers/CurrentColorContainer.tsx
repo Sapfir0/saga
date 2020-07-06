@@ -1,8 +1,7 @@
-import {loadColor} from "../Store/actions";
+import Actions from "../Store/Actions";
 import {connect, useDispatch} from "react-redux";
 import React from "react";
 import CurrentColor from "../Components/CurrentColor/CurrentColor";
-import {store} from "../Store";
 import {IColor} from "../Store/typings";
 
 interface IProps {
@@ -10,9 +9,11 @@ interface IProps {
 }
 
 function CurrentColorContainer(props: IProps) {
+    const actions = new Actions()
+
     const dispatch = useDispatch()
     const onClick = (event: any, id: number) => {
-        dispatch(loadColor(id))
+        dispatch(actions.loadColor(id))
     }
     return <CurrentColor color={props.color} onClick={onClick} />
 }

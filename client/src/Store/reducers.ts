@@ -1,4 +1,4 @@
-import {GET_COLOR, GET_COLORS} from "./actions";
+import {GET_COLOR, GET_COLORS} from "./actionsName";
 import {ActionType, IStore} from "./typings";
 
 

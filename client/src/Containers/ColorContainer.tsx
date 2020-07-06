@@ -1,8 +1,7 @@
 import {connect, useDispatch} from "react-redux";
-import {loadColors} from "../Store/actions";
+import Actions from "../Store/Actions";
 import {Colors} from "../Components/Colors/Colors";
 import React from "react";
-import {store} from "../Store";
 import {IColor, IColors} from "../Store/typings";
 
 interface IProps  {
@@ -10,9 +9,11 @@ interface IProps  {
 }
 
 function ColorsContainer(props: IProps) {
+    const actions = new Actions()
+
     const dispatch = useDispatch()
     const onClick = () => {
-        dispatch(loadColors())
+        dispatch(actions.loadColors())
     }
     return <Colors onClick={onClick} colors={props.colors}/>
 }

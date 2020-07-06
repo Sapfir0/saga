@@ -9,12 +9,12 @@ import {IData, IInteractionService} from "./typings/IInteractionService";
 class InteractionService implements IInteractionService {
     private api = new ApiHelper()
 
-    get = (url: string) => {
+    public get = (url: string) => {
         const composition = compose(this.api.request, axios.get)
         return composition(`${serverUrl}/${url}`)
     }
 
-    post = (url: string, data: IData) => {
+    public post = (url: string, data: IData) => {
         const composition = compose(this.api.request, axios.post)
         return composition(`${serverUrl}/${url}`, data)
     }

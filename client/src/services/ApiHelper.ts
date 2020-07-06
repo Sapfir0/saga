@@ -1,17 +1,18 @@
 import {statusCodes} from "./statusCodes";
 import {IApiHelper} from "./typings/IApiHelper";
+import {AxiosResponse} from "axios";
 
 
-class ApiHelper implements IApiHelper<any> {
+class ApiHelper<T extends AxiosResponse> implements IApiHelper<T> {
 
-    request  = async(promise: Promise<any>) => { // на самом деле, это должна быть генераторная функци но мне лень ее биндить ручками
+    public request  = async (promise: Promise<T>) => { // на самом деле, это должна быть генераторная функци но мне лень ее биндить ручками
         const data = await promise
         const message = this.parseCode(data.status)
         console.log(message)
-        return await data
+        return data;
     }
 
-    parseCode = (code: number) => {
+    public parseCode = (code: number) => {
         if (code in statusCodes) {
             return statusCodes[code]
         }
