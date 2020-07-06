@@ -12,11 +12,13 @@ import {TYPES} from "../services/typings/types";
 
 @injectable()
 class Saga implements ISaga {
-    @inject(TYPES.InteractionService) private fetcher: InteractionService
-    @inject(TYPES.Actions) private actions: Actions
+    private fetcher: InteractionService
+    private actions: Actions
 
-
-    constructor(actions: Actions, fetcher: InteractionService) {
+    constructor(
+        @inject(TYPES.InteractionService) fetcher: InteractionService,
+        @inject(TYPES.Actions) actions: Actions
+    ) {
         this.actions = actions
         this.fetcher = fetcher
 
