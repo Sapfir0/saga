@@ -18,9 +18,5 @@ myContainer.bind<IApiHelper>(TYPES.ApiHelper).to(ApiHelper)
 myContainer.bind<IInteractionService>(TYPES.InteractionService).to(InteractionService)
 myContainer.bind<ISaga>(TYPES.Saga).to(Saga)
 
-// myContainer.bind<ApiHelper>(TYPES.ApiHelper).to(InteractionService)
-// myContainer.bind<Actions>(TYPES.Actions).to(Saga)
-// myContainer.bind<InteractionService>(TYPES.InteractionService).to(Saga)
-
 
 export { myContainer }

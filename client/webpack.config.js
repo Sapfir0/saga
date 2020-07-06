@@ -3,6 +3,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
+const { CheckerPlugin } = require('awesome-typescript-loader')
 
 
 module.exports = ({
@@ -13,8 +14,7 @@ module.exports = ({
         filename: "js/[name].[hash].bundle.js",
         chunkFilename: 'js/[name].[hash].bundle.js',
     },
-    mode: 'development',
-    devtool: 'eval-cheap-module-source-map',
+    devtool: 'source-map',
     resolve: {
         extensions: ['.tsx', '.ts', ".js"]
     },
@@ -23,12 +23,19 @@ module.exports = ({
             {
                 test: /\.tsx?$/,
                 exclude: /(node_modules)/,
-                loader: 'ts-loader',
-                options: {
-                    compilerOptions: {
-                        "sourceMap": true,
+                loader: 'awesome-typescript-loader',
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    "style-loader",
+                    {
+                        loader: "css-loader",
+                        options: {
+                            modules: false, //без этого классы в css будут хешами(можно не ставить, если css импортирован как реакт компонент)
+                        }
                     }
-                }
+                ]
             },
         ]
     },
@@ -52,6 +59,7 @@ module.exports = ({
             ],
         }),
         new HtmlWebpackPlugin({template: './public/index.html'}),
+        new CheckerPlugin()
 
     ]
 })
