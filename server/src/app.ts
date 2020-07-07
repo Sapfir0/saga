@@ -10,7 +10,38 @@ app.use(cors());
 
 
 const colors = ["red", "green", "blue", "cyan", "magento", "yellow"]
+const secret = "secret key"
+const validUser = {
+    username: "admin",
+    password: "1234",
+    role: "admin"
+}
 
+
+function verify(token: string) {
+    return jwt.verify(token, secret, (err: any, decoded: any) => {
+        if (err) {
+            return err.message;
+        } else {
+            return decoded;
+        }
+    });
+}
+
+function checkHeaders(req, res, next) {
+    let token = req.headers['x-access-token'];
+    const user = verify(token)
+
+    if (typeof user === 'string') {
+        // это ошибка, значится
+        return res.status(403).send({
+            error: user,
+        });
+    } else {
+        req.user = user;
+        next();
+    }
+}
 
 app.get('/', function (req, res) {
     res.send('Hello World!');
@@ -21,20 +52,25 @@ app.get('/getColors', function (req, res) {
 });
 
 
-const validUsername = "admin"
-const validPassword = "1234"
-const secret = "secret key"
+const jwtExpiresIn = 60*30 // полчаса
+const rtExpiresIn = 60*60*24 // сутки
+
 
 app.post('/signIn',  urlencodedParser,  function (req, res) {
     const username = req.body.username;
     const password = req.body.password;
-    const user = {
-        username,
-        password,
-        'role': 'admin'
-    };
-    const token = jwt.sign(user, secret, {expiresIn: 300});
-    res.send({jwt: token, refreshToken: refreshToken})
+
+    if (username === validUser.username && password === validUser.password) {
+        const jwtToken = jwt.sign({ data: validUser }, secret, {
+            expiresIn: jwtExpiresIn,
+        });
+
+        const rtToken = jwt.sign({})
+
+        res.send({accessToken: jwtToken, refreshToken: rtToken})
+    }
+
+
 });
 
 app.post('/token', function (req, res, next) {
