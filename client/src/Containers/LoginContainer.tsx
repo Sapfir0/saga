@@ -6,8 +6,10 @@ import {IColor, IColors} from "../Store/typings";
 import {myContainer} from "../typings/inversify.config";
 import {TYPES} from "../services/typings/types";
 import Login from "../Components/Login/Login";
+import {LoginReducer} from "../typings/common";
 
-interface IProps  {
+interface IProps {
+    auth: LoginReducer
 }
 
 function LoginContainer(props: IProps) {
@@ -18,13 +20,13 @@ function LoginContainer(props: IProps) {
     const dispatch = useDispatch()
     const onClick = () => dispatch(actions.loadLogin({username: "admin", password: "1234"}))
 
-    return <Login onClick={onClick} />
+    return <Login auth={props.auth} onClick={onClick} />
 }
 
 
-const loginAction = (state: {colorReducer: {colors: IColors}}) => {
+const loginAction = (state: {loginReducer: LoginReducer}) => {
     return {
-        colors: state.colorReducer.colors
+        ...state.loginReducer
     }
 }
 
