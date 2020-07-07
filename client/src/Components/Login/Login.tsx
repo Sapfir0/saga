@@ -13,9 +13,8 @@ interface IProps {
 export default function Login(props: IProps) {
     console.log(props)
     return <>
-        <p /> Вы {props.auth?.role}
-        <p /> Ваш jwt токен: {props.auth?.accessToken}
-        <p />
+        <p /> Вы {props.auth.accessToken.length !== 0 ? props.auth?.role : "никто"}
+
         <Button onClick={props.onClick} text="Авторизоваться"/>
     </>
 }

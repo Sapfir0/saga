@@ -7,6 +7,8 @@ import {myContainer} from "../typings/inversify.config";
 import {TYPES} from "../services/typings/types";
 import Login from "../Components/Login/Login";
 import {LoginReducer} from "../typings/common";
+import LocalStorage from "../services/LocalStorage";
+import {USER} from "../config/localstorageFields";
 
 interface IProps {
     auth: LoginReducer
@@ -16,12 +18,13 @@ function LoginContainer(props: IProps) {
     console.log(props)
 
     const actions = myContainer.get<Actions>(TYPES.Actions)
+    const ls = myContainer.get<LocalStorage>(TYPES.LocalStorage)
 
     const dispatch = useDispatch()
     const onClick = () => dispatch(actions.loadLogin({username: "admin", password: "1234"}))
 
-    if (props.auth.auth) {
-        localStorage.setItem("user", JSON.stringify(props.auth.auth))
+    if (props.auth.auth.accessToken.length !== 0) {
+        ls.set(USER, props.auth.auth)
     }
 
     return <Login auth={props.auth.auth} onClick={onClick} />

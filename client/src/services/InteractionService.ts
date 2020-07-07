@@ -1,56 +1,50 @@
-import axios, {AxiosResponse} from "axios";
+import axios from "axios";
 import {serverUrl} from "../config/config";
-import {compose} from "redux";
 import ApiHelper from "./ApiHelper";
-import {IData, IInteractionService, RawPromisableDTO} from "./typings/IInteractionService";
-import {injectable, inject} from "inversify";
+import {IData, IInteractionService} from "./typings/IInteractionService";
+import {inject, injectable} from "inversify";
 import {TYPES} from "./typings/types";
-import EventEmitter from "events";
+import LocalStorage from "./LocalStorage";
+import {USER} from "../config/localstorageFields";
+import {ILogin} from "../Store/typings";
 
 
 @injectable()
 class InteractionService implements IInteractionService {
     private _api: ApiHelper
-    emitter = new EventEmitter(); //TODO DI fix
+    private _ls: LocalStorage
 
     constructor(
-        @inject(TYPES.ApiHelper)  _api: ApiHelper
+        @inject(TYPES.ApiHelper)  _api: ApiHelper,
+        @inject(TYPES.LocalStorage) _ls: LocalStorage
     ) {
         this._api = _api
+        this._ls = _ls
     }
 
     public get = (url: string) => {
-        const user = JSON.parse(<string>localStorage.getItem('user'))
+        const user: ILogin = this._ls.get(USER)
 
-        const composition = compose(
-            this._api.request,
-            axios.get
-        )
-        return composition(`${serverUrl}/${url}`, {
+        const req = axios.get(`${serverUrl}/${url}`, {
             headers: {
-                'x-access-token': user.accessToken
+                'x-access-token': user?.accessToken
             }
-        }) as RawPromisableDTO
+        })
+        return this._api.request(req)
     }
 
     public post = (url: string, data: IData) => {
-        const user = JSON.parse(<string>localStorage.getItem('user'))
+        const user: ILogin = this._ls.get(USER)
         console.log(user)
+
         const req = axios.post(`${serverUrl}/${url}`, data, {
             headers: {
-                'x-access-token': user.accessToken
+                'x-access-token': user?.accessToken // если не имеем токена в сторедже, то мы не авторизованы и кидаем нул как хедер
             }
         })
         const parsedData = this._api.request(req)
         console.log(parsedData)
         return parsedData
-        // try {
-        //
-        // }
-        // catch (e) {
-        //     window.location.href = "/"
-        //     throw new Error("J")
-        // }
 
     }
 }
