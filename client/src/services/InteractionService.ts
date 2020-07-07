@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosRequestConfig} from "axios";
 import {serverUrl} from "../config/config";
 import ApiHelper from "./ApiHelper";
 import {IData, IInteractionService} from "./typings/IInteractionService";
@@ -8,6 +8,8 @@ import LocalStorage from "./LocalStorage";
 import {USER} from "../config/localstorageFields";
 import {ILogin} from "../Store/typings";
 import hist from "./Redirection";
+import Redirection from "./Redirection";
+import {routeType} from "../config/routes";
 
 
 @injectable()
@@ -25,38 +27,29 @@ class InteractionService implements IInteractionService {
 
     private getHeadersWithToken = (user: ILogin) => {
         return {
-            headers: {
-                'x-access-token': user?.accessToken  // если не имеем токена в сторедже, то мы не авторизованы и кидаем нул как хедер
-            }
+            'x-access-token': user?.accessToken  // если не имеем токена в сторедже, то мы не авторизованы и кидаем нул как хедер
         }
     }
 
-    public get = async (url: string) => {
+    private query = async (config: AxiosRequestConfig) => {
         const user: ILogin = this._ls.get(USER)
-        const req = axios.get(`${serverUrl}/${url}`, this.getHeadersWithToken(user))
-
+        const req = axios.request({...config, headers: this.getHeadersWithToken(user)})
         const parsedData = await this._api.request(req)
         console.log(parsedData)
 
         if ("url" in parsedData) {
-            hist.push(parsedData.url)
-            console.log("Мы должны были перейти на другую страницу епта")
+            Redirection.redirect(parsedData.url as routeType)
         }
 
         return parsedData
+    }
 
-
+    public get = async (url: string) => {
+        return this.query({method: "get", url: `${serverUrl}/${url}`})
     }
 
     public post = async (url: string, data: IData) => {
-        const user: ILogin = this._ls.get(USER)
-        console.log(user)
-
-        const req = axios.post(`${serverUrl}/${url}`, data, this.getHeadersWithToken(user))
-        const parsedData = await this._api.request(req)
-        console.log(parsedData)
-        return parsedData
-
+        return this.query({method: "post", url: `${serverUrl}/${url}`, data: data})
     }
 }
 

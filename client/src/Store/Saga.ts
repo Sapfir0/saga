@@ -49,7 +49,7 @@ class Saga implements ISaga {
     }
 
     public *workerLoadLogout() {
-        const data = yield this.fetcher.post("signIn", {})
+        const data = yield this.fetcher.post("logout", {})
         yield put(this.actions.getLogout())
     }
 }

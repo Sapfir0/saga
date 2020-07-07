@@ -32,6 +32,7 @@ function checkHeaders(req, res, next) {
     let token = req.headers['x-access-token'];
     const user = verify(token)
 
+    console.log(user)
     if (typeof user === 'string') {
         // это ошибка, значится
         return res.status(403).send({
@@ -47,39 +48,56 @@ app.get('/', function (req, res) {
     res.send('Hello World!');
 });
 
+const jwtLife = 60*30 // полчаса
+const rtLife = 60*60*24 // сутки
 
-const jwtExpiresIn = 60*30 // полчаса
-const rtExpiresIn = 60*60*24 // сутки
 
+const getAbsoluteDates = () => {
+    const jwtExpiresAt = new Date()
+    const rtExpiresAt = new Date()
+
+    jwtExpiresAt.setSeconds(jwtExpiresAt.getSeconds() + jwtLife)
+    rtExpiresAt.setSeconds(rtExpiresAt.getSeconds() + rtLife)
+    console.log(rtExpiresAt)
+    console.log(jwtExpiresAt)
+    return [jwtExpiresAt, rtExpiresAt]
+}
 
 app.post('/signIn',  urlencodedParser,  function (req, res) {
+    const [jwtExpiresAt, rtExpiresAt] = getAbsoluteDates()
+
     const username = req.body.username;
     const password = req.body.password;
 
     if (username === validUser.username && password === validUser.password) {
         const jwtToken = jwt.sign({ data: validUser }, secret, {
-            expiresIn: jwtExpiresIn,
+            expiresIn: jwtLife,
         });
 
-        const rtToken = jwt.sign({}, secret, {expiresIn: rtExpiresIn})
-
-        res.send({accessToken: jwtToken, refreshToken: rtToken, expiresIn: jwtExpiresIn, role: validUser.role})
+        const rtToken = jwt.sign({}, secret, {expiresIn: rtLife})
+        res.send({accessToken: jwtToken, refreshToken: rtToken, expiresIn: jwtExpiresAt, role: validUser.role})
     }
     else {
         res.send({error: "Нет токена"})
     }
 });
 
+
 app.post('/longToken', urlencodedParser, checkHeaders, (req, res, next) => {
+    const [jwtExpiresAt, rtExpiresAt] = getAbsoluteDates()
+
     const jwtToken = jwt.sign({ data: validUser }, secret, {
-        expiresIn: jwtExpiresIn,
+        expiresIn: jwtExpiresAt,
     });
 
-    const rtToken = jwt.sign({}, secret, {expiresIn: rtExpiresIn})
+    const rtToken = jwt.sign({}, secret, {expiresIn: rtLife})
 
-    res.send({accessToken: jwtToken, refreshToken: rtToken, expiresIn: jwtExpiresIn, role: validUser.role})
+    res.send({accessToken: jwtToken, refreshToken: rtToken, expiresIn: jwtExpiresAt, role: validUser.role})
 })
 
+app.post('/logout',  urlencodedParser,  checkHeaders,  function (req, res) {
+    res.send("Success logout") // тут по-хорошему надо удалить токен, но нет
+});
 
 app.post('/getColor',  urlencodedParser,  checkHeaders,  function (req, res) {
     console.log(req.body)

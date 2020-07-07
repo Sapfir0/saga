@@ -1,4 +1,5 @@
 import {AxiosResponse} from "axios";
+import {routeType} from "../../config/routes";
 
 export type NeedToBeRedirected = {
     url: string
