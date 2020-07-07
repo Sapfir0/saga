@@ -4,7 +4,7 @@ import {DTO} from "../../typings/common";
 import {GET_LOGOUT, GET_LOGIN} from "../actionsName";
 
 
-export const loginReducer = (state: IStore = initialState, action: ActionTypePayload<DTO>) => {
+export const authReducer = (state: IStore = initialState, action: ActionTypePayload<DTO>) => {
     switch (action.type) {
         case GET_LOGIN:
             return {

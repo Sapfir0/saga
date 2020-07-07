@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 import {colorReducer} from "./reducers/colorReducer";
-import {loginReducer} from "./reducers/loginReducer";
+import {authReducer} from "./reducers/authReducer";
 
 
 export default combineReducers({
     colorReducer: colorReducer,
-    loginReducer: loginReducer,
+    authReducer: authReducer,
 });

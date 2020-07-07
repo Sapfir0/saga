@@ -10,9 +10,9 @@ interface IProps {
     auth: ILogin
 }
 
-export default function Login(props: IProps) {
+export default function Logout(props: IProps) {
     console.log(props)
     return <>
-        <Button onClick={props.onClick} text="Авторизоваться"/>
+        <Button onClick={props.onClick} text="Выйти"/>
     </>
 }
