@@ -17,7 +17,7 @@ class ApiHelper implements IApiHelper {
         }
         catch (e) {
             const error = {...e}
-            // console.log(error)
+            console.warn(error)
             data = error.response
             isRequestCrashing = error.isAxiosError
         }

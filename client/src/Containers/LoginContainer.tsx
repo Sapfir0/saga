@@ -23,8 +23,9 @@ function LoginContainer(props: IProps) {
     const dispatch = useDispatch()
     const onClick = () => dispatch(actions.loadLogin({username: "admin", password: "1234"}))
 
-    if (props.auth.auth.accessToken.length !== 0) {
-        ls.set(USER, props.auth.auth)
+    console.log(props.auth.auth, "то оно")
+    if (props.auth.auth && props.auth.auth.accessToken.length !== 0) {
+        ls.set(USER, props.auth.auth) // если пользователь залогировался
     }
 
     return <Login auth={props.auth.auth} onClick={onClick} />
