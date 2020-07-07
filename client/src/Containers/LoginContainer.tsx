@@ -16,7 +16,7 @@ function LoginContainer(props: IProps) {
     const actions = myContainer.get<Actions>(TYPES.Actions)
 
     const dispatch = useDispatch()
-    const onClick = () => dispatch(actions.loadLogin())
+    const onClick = () => dispatch(actions.loadLogin({username: "admin", password: "1234"}))
 
     return <Login onClick={onClick} />
 }

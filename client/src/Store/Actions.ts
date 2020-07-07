@@ -1,9 +1,10 @@
 import "reflect-metadata";
 
-import {GET_COLOR, GET_COLORS, LOAD_COLOR, LOAD_COLORS, LOGIN, LOGOUT} from "./actionsName";
+import {GET_COLOR, GET_COLORS, LOAD_COLOR, LOAD_COLORS, LOAD_LOGIN, LOAD_LOGOUT, GET_LOGIN, GET_LOGOUT} from "./actionsName";
 import {IActions} from "./typings/IActions";
 import {DTO} from "../typings/common";
 import {injectable} from "inversify";
+import {ILoginPayload} from "./typings";
 
 
 @injectable()
@@ -30,21 +31,24 @@ class Actions implements IActions {
     })
 
     public getLogin = (dataFromServer: DTO) => ({
-        type: LOGIN,
+        type: GET_LOGIN,
         payload: dataFromServer
     })
 
-    public loadLogin = () => ({
-        type: LOGIN
+    public loadLogin = (userdata: ILoginPayload) => ({
+        type: LOAD_LOGIN,
+        payload: {
+            ...userdata
+        }
     })
 
     public getLogout = (dataFromServer: DTO) => ({
-        type: LOGOUT,
+        type: GET_LOGOUT,
         payload: dataFromServer
     })
 
     public loadLogout = () => ({
-        type: LOGOUT
+        type: LOAD_LOGOUT
     })
 }
 
