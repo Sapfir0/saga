@@ -9,7 +9,9 @@ export interface IStore  {
 export type IColor = string
 export type IColors = string[]
 
-export type IPayload = {id: number}
+export type IColorPayload = {id: number}
+export type ILoginPayload = {username: string, password: string}
+
 
 export type NonNullable<T> = T extends null | undefined ? never : T
 

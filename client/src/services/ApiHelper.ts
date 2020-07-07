@@ -10,22 +10,27 @@ class ApiHelper implements IApiHelper {
     public request  = async (promise: Promise<AxiosResponse>) => { // на самом деле, это должна быть генераторная функци но мне лень ее биндить ручками
         let statusCode: number = 0
         let data: AxiosResponse
+        let isRequestCrashing: boolean = false
 
         try {
             data = await promise
         }
         catch (e) {
             const error = {...e}
+            // console.log(error)
             data = error.response
+            isRequestCrashing = error.isAxiosError
         }
         finally {
-            // @ts-ignore
-            console.log(data)
-            // @ts-ignore
-            statusCode = data.status
+            statusCode = data!.status
             const message = this.parseCode(statusCode)
             console.log(message)
         }
+
+        if (isRequestCrashing) {
+            throw new Error("Request is failed")
+        }
+
         return data
 
     }

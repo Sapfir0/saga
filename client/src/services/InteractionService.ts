@@ -5,11 +5,13 @@ import ApiHelper from "./ApiHelper";
 import {IData, IInteractionService, RawPromisableDTO} from "./typings/IInteractionService";
 import {injectable, inject} from "inversify";
 import {TYPES} from "./typings/types";
+import EventEmitter from "events";
 
 
 @injectable()
 class InteractionService implements IInteractionService {
     private _api: ApiHelper
+    emitter = new EventEmitter(); //TODO DI fix
 
     constructor(
         @inject(TYPES.ApiHelper)  _api: ApiHelper
@@ -26,13 +28,18 @@ class InteractionService implements IInteractionService {
     }
 
     public post = (url: string, data: IData) => {
-        // const req = axios.post(`${serverUrl}/${url}`, data)
-        // return this._api.request(req)
-        const composition = compose(
-            this._api.request,
-            axios.post
-        )
-        return composition(`${serverUrl}/${url}`, data) as RawPromisableDTO
+        const req = axios.post(`${serverUrl}/${url}`, data)
+        const parsedData = this._api.request(req)
+        console.log(parsedData)
+        return parsedData
+        // try {
+        //
+        // }
+        // catch (e) {
+        //     window.location.href = "/"
+        //     throw new Error("J")
+        // }
+
     }
 }
 

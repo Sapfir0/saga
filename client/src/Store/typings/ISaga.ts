@@ -1,9 +1,9 @@
 import {AllEffect, ForkEffect} from "redux-saga/effects"
-import {ActionTypePayload, IPayload} from "../typings";
+import {ActionTypePayload, IColorPayload} from "../typings";
 
 type generator = Generator<unknown, void, unknown>
 
 export interface ISaga {
     workerLoadColors: () => generator
-    workerLoadColor: (action: ActionTypePayload<IPayload>) => generator
+    workerLoadColor: (action: ActionTypePayload<IColorPayload>) => generator
 }
