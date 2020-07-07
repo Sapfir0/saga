@@ -1,5 +1,5 @@
 import React from "react";
-import {DTO, LoginReducer} from "../typings/common";
+import {DTO, LoginReducer} from "../../typings/common";
 
 export interface IStore  {
     color: IColor

@@ -1,10 +1,11 @@
-import {connect, useDispatch} from "react-redux";
-import Actions from "../Store/Actions";
-import {Colors} from "../Components/Colors/Colors";
 import React from "react";
-import {IColor, IColors} from "../Store/typings";
-import {myContainer} from "../typings/inversify.config";
-import {TYPES} from "../services/typings/types";
+import {connect, useDispatch} from "react-redux";
+import {IColors} from "../../Store/typings";
+import {myContainer} from "../../typings/inversify.config";
+import {TYPES} from "../../services/typings/types";
+import Actions from "../../Store/Actions";
+import {Colors} from "../../Components/Colors/Colors";
+
 
 interface IProps  {
     colors: IColors

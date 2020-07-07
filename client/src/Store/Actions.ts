@@ -42,9 +42,8 @@ class Actions implements IActions {
         }
     })
 
-    public getLogout = (dataFromServer: DTO) => ({
+    public getLogout = () => ({ // а тут нет параметров, хотя это гет, хех
         type: GET_LOGOUT,
-        payload: dataFromServer
     })
 
     public loadLogout = () => ({

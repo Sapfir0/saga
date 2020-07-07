@@ -22,26 +22,30 @@ class InteractionService implements IInteractionService {
         this._ls = _ls
     }
 
+    private getHeadersWithToken = (user: ILogin) => {
+        return {
+            headers: {
+                'x-access-token': user?.accessToken  // если не имеем токена в сторедже, то мы не авторизованы и кидаем нул как хедер
+            }
+        }
+    }
+
     public get = (url: string) => {
         const user: ILogin = this._ls.get(USER)
 
-        const req = axios.get(`${serverUrl}/${url}`, {
-            headers: {
-                'x-access-token': user?.accessToken
-            }
-        })
-        return this._api.request(req)
+        const req = axios.get(`${serverUrl}/${url}`, this.getHeadersWithToken(user))
+
+        const parsedData = this._api.request(req)
+        return parsedData
+
+
     }
 
     public post = (url: string, data: IData) => {
         const user: ILogin = this._ls.get(USER)
         console.log(user)
 
-        const req = axios.post(`${serverUrl}/${url}`, data, {
-            headers: {
-                'x-access-token': user?.accessToken // если не имеем токена в сторедже, то мы не авторизованы и кидаем нул как хедер
-            }
-        })
+        const req = axios.post(`${serverUrl}/${url}`, data, this.getHeadersWithToken(user))
         const parsedData = this._api.request(req)
         console.log(parsedData)
         return parsedData

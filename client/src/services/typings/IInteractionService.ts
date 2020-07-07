@@ -8,7 +8,7 @@ export interface IData {
 
 
 export interface IInteractionService {
-    get: (url: string) => RawPromisableDTO
+    get: (url: string) => RawPromisableDTO | undefined // TODO
     post: (url: string, data: IData) => RawPromisableDTO
 }
 
