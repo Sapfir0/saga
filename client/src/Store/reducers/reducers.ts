@@ -7,7 +7,7 @@ const initialState : IStore = {
     color: ""
 }
 
-export const colorReducer = (state: IStore = initialState, action: ActionTypePure<DTO>) => {
+export const colorReducer = (state: IStore = initialState, action: ActionTypePayload<DTO>) => {
     switch (action.type) {
         case GET_COLORS:
             return {

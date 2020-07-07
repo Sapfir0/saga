@@ -1,7 +1,7 @@
 import express from "express"
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import jwt from "jwt"
+import jwt from "jsonwebtoken"
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -47,10 +47,6 @@ app.get('/', function (req, res) {
     res.send('Hello World!');
 });
 
-app.get('/getColors', function (req, res) {
-    res.send(colors);
-});
-
 
 const jwtExpiresIn = 60*30 // полчаса
 const rtExpiresIn = 60*60*24 // сутки
@@ -65,35 +61,27 @@ app.post('/signIn',  urlencodedParser,  function (req, res) {
             expiresIn: jwtExpiresIn,
         });
 
-        const rtToken = jwt.sign({})
+        const rtToken = jwt.sign({}, secret, {expiresIn: rtExpiresIn})
 
-        res.send({accessToken: jwtToken, refreshToken: rtToken})
-    }
-
-
-});
-
-app.post('/token', function (req, res, next) {
-    const username = req.body.username
-    const refreshToken = req.body.refreshToken
-    if((refreshToken in refreshTokens) && (refreshTokens[refreshToken] == username)) {
-        var user = {
-            'username': username,
-            'role': 'admin'
-        }
-        var token = jwt.sign(user, SECRET, { expiresIn: 300 })
-        res.json({token: 'JWT ' + token})
+        res.send({accessToken: jwtToken, refreshToken: rtToken, expiresIn: jwtExpiresIn, role: validUser.role})
     }
     else {
-        res.send(401)
+        res.send({error: "Нет токена"})
     }
-})
-
-app.post('/register',  urlencodedParser,  function (req, res) {
-
 });
 
-app.post('/getColor',  urlencodedParser,  function (req, res) {
+app.post('/longToken', urlencodedParser, checkHeaders, (req, res, next) => {
+    const jwtToken = jwt.sign({ data: validUser }, secret, {
+        expiresIn: jwtExpiresIn,
+    });
+
+    const rtToken = jwt.sign({}, secret, {expiresIn: rtExpiresIn})
+
+    res.send({accessToken: jwtToken, refreshToken: rtToken, expiresIn: jwtExpiresIn, role: validUser.role})
+})
+
+
+app.post('/getColor',  urlencodedParser,  checkHeaders,  function (req, res) {
     console.log(req.body)
     const id = req.body.id
     if (id >= colors.length) {
@@ -102,6 +90,10 @@ app.post('/getColor',  urlencodedParser,  function (req, res) {
     else {
         res.send(colors[id]);
     }
+});
+
+app.get('/getColors', checkHeaders,  function (req, res) {
+    res.send(colors);
 });
 
 const port = 7080

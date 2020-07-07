@@ -4,7 +4,6 @@ import {compose} from "redux";
 import ApiHelper from "./ApiHelper";
 import {IData, IInteractionService, RawPromisableDTO} from "./typings/IInteractionService";
 import {injectable, inject} from "inversify";
-import {DTO} from "../typings/common";
 import {TYPES} from "./typings/types";
 
 
@@ -27,6 +26,8 @@ class InteractionService implements IInteractionService {
     }
 
     public post = (url: string, data: IData) => {
+        // const req = axios.post(`${serverUrl}/${url}`, data)
+        // return this._api.request(req)
         const composition = compose(
             this._api.request,
             axios.post

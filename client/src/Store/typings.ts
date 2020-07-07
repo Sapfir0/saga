@@ -20,7 +20,6 @@ export interface ActionTypePayload<T> {
 
 export interface ActionTypePure<T> {
     type: string;
-    payload?: T;
 }
 
 export type MouseClick = (event: IMouseEvent, id: number) => void;

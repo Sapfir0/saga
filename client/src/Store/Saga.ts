@@ -40,7 +40,6 @@ class Saga implements ISaga {
 
 export default function* rootSaga() {
     const sagas = myContainer.get<Saga>(TYPES.Saga)
-    console.log(sagas)
     yield all([
         takeEvery(LOAD_COLOR, sagas.workerLoadColor),
         takeEvery(LOAD_COLORS, sagas.workerLoadColors)

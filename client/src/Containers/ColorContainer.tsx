@@ -11,6 +11,8 @@ interface IProps  {
 }
 
 function ColorsContainer(props: IProps) {
+    console.log(props)
+
     const actions = myContainer.get<Actions>(TYPES.Actions)
 
     const dispatch = useDispatch()
