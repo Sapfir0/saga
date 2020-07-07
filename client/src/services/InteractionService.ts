@@ -20,15 +20,27 @@ class InteractionService implements IInteractionService {
     }
 
     public get = (url: string) => {
+        const user = JSON.parse(<string>localStorage.getItem('user'))
+
         const composition = compose(
             this._api.request,
             axios.get
         )
-        return composition(`${serverUrl}/${url}`) as RawPromisableDTO
+        return composition(`${serverUrl}/${url}`, {
+            headers: {
+                'x-access-token': user.accessToken
+            }
+        }) as RawPromisableDTO
     }
 
     public post = (url: string, data: IData) => {
-        const req = axios.post(`${serverUrl}/${url}`, data)
+        const user = JSON.parse(<string>localStorage.getItem('user'))
+        console.log(user)
+        const req = axios.post(`${serverUrl}/${url}`, data, {
+            headers: {
+                'x-access-token': user.accessToken
+            }
+        })
         const parsedData = this._api.request(req)
         console.log(parsedData)
         return parsedData

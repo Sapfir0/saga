@@ -1,13 +1,13 @@
 import React from "react";
 import Button from "../Button/Button";
-import {IColors} from "../../Store/typings";
+import {IColors, ILogin} from "../../Store/typings";
 import {LoginReducer} from "../../typings/common";
 
 type MouseClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 
 interface IProps {
     onClick: MouseClick
-    auth: LoginReducer
+    auth: ILogin
 }
 
 export default function Login(props: IProps) {

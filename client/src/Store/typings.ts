@@ -1,9 +1,17 @@
 import React from "react";
-import {DTO} from "../typings/common";
+import {DTO, LoginReducer} from "../typings/common";
 
 export interface IStore  {
     color: IColor
     colors: IColors
+    auth: ILogin
+}
+
+export interface ILogin {
+    accessToken: string
+    refreshToken: string,
+    expiresIn: number
+    role: string // may be literal type
 }
 
 export type IColor = string

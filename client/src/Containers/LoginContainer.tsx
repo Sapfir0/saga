@@ -20,13 +20,17 @@ function LoginContainer(props: IProps) {
     const dispatch = useDispatch()
     const onClick = () => dispatch(actions.loadLogin({username: "admin", password: "1234"}))
 
-    return <Login auth={props.auth} onClick={onClick} />
+    if (props.auth.auth) {
+        localStorage.setItem("user", JSON.stringify(props.auth.auth))
+    }
+
+    return <Login auth={props.auth.auth} onClick={onClick} />
 }
 
 
 const loginAction = (state: {loginReducer: LoginReducer}) => {
     return {
-        ...state.loginReducer
+        auth: state.loginReducer
     }
 }
 

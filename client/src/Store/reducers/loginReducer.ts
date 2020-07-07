@@ -1,7 +1,7 @@
 import {ActionTypePayload, IStore} from "../typings";
 import initialState from "../store";
 import {DTO} from "../../typings/common";
-import {GET_COLOR, GET_COLORS, GET_LOGOUT, GET_LOGIN} from "../actionsName";
+import {GET_LOGOUT, GET_LOGIN} from "../actionsName";
 
 
 export const loginReducer = (state: IStore = initialState, action: ActionTypePayload<DTO>) => {
@@ -10,12 +10,12 @@ export const loginReducer = (state: IStore = initialState, action: ActionTypePay
             return {
                 ...state,
                 auth: action.payload
-            } as IStore
+            } as unknown as IStore
         case GET_LOGOUT:
             return {
                 ...state,
                 auth: action.payload
-            }  as IStore
+            } as unknown  as IStore
         default:
             return state;
     }
