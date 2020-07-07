@@ -7,6 +7,7 @@ import {TYPES} from "./typings/types";
 import LocalStorage from "./LocalStorage";
 import {USER} from "../config/localstorageFields";
 import {ILogin} from "../Store/typings";
+import hist from "./Redirection";
 
 
 @injectable()
@@ -30,23 +31,29 @@ class InteractionService implements IInteractionService {
         }
     }
 
-    public get = (url: string) => {
+    public get = async (url: string) => {
         const user: ILogin = this._ls.get(USER)
-
         const req = axios.get(`${serverUrl}/${url}`, this.getHeadersWithToken(user))
 
-        const parsedData = this._api.request(req)
+        const parsedData = await this._api.request(req)
+        console.log(parsedData)
+
+        if ("url" in parsedData) {
+            hist.push(parsedData.url)
+            console.log("Мы должны были перейти на другую страницу епта")
+        }
+
         return parsedData
 
 
     }
 
-    public post = (url: string, data: IData) => {
+    public post = async (url: string, data: IData) => {
         const user: ILogin = this._ls.get(USER)
         console.log(user)
 
         const req = axios.post(`${serverUrl}/${url}`, data, this.getHeadersWithToken(user))
-        const parsedData = this._api.request(req)
+        const parsedData = await this._api.request(req)
         console.log(parsedData)
         return parsedData
 

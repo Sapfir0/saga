@@ -1,6 +1,6 @@
 import {DTO} from "../../typings/common";
 import {AxiosResponse} from "axios";
-import {IApiHelper} from "./IApiHelper";
+import {IApiHelper, NeedToBeRedirected} from "./IApiHelper";
 
 export interface IData {
     [name: string]: string | number | undefined;
@@ -8,8 +8,8 @@ export interface IData {
 
 
 export interface IInteractionService {
-    get: (url: string) => RawPromisableDTO | undefined // TODO
+    get: (url: string) => RawPromisableDTO
     post: (url: string, data: IData) => RawPromisableDTO
 }
 
-export type RawPromisableDTO = Promise<AxiosResponse<DTO>>
+export type RawPromisableDTO = Promise<AxiosResponse<DTO> | NeedToBeRedirected>
