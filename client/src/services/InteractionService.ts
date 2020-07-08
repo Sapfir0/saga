@@ -10,19 +10,23 @@ import {ILogin} from "../Store/typings";
 import hist from "./Redirection";
 import Redirection from "./Redirection";
 import {routeType} from "../config/routes";
+import TokenService from "./TokenService";
 
 
 @injectable()
 class InteractionService implements IInteractionService {
     private _api: ApiHelper
     private _ls: LocalStorage
+    private _token: TokenService
 
     constructor(
-        @inject(TYPES.ApiHelper)  _api: ApiHelper,
-        @inject(TYPES.LocalStorage) _ls: LocalStorage
+        @inject(TYPES.ApiHelper)  api: ApiHelper,
+        @inject(TYPES.LocalStorage) ls: LocalStorage,
+        @inject(TYPES.TokenService) token: TokenService
     ) {
-        this._api = _api
-        this._ls = _ls
+        this._api = api
+        this._ls = ls
+        this._token = token
     }
 
     private getHeadersWithToken = (user: ILogin) => {
@@ -41,6 +45,7 @@ class InteractionService implements IInteractionService {
             Redirection.redirect(parsedData.url as routeType)
         }
 
+
         return parsedData
     }
 
@@ -50,6 +55,10 @@ class InteractionService implements IInteractionService {
 
     public post = async (url: string, data: IData) => {
         return this.query({method: "post", url: `${serverUrl}/${url}`, data: data})
+    }
+
+    public signIn = async (userdata: IData) => {
+
     }
 }
 

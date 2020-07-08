@@ -4,6 +4,6 @@ import {authReducer} from "./reducers/authReducer";
 
 
 export default combineReducers({
-    colorReducer: colorReducer,
-    authReducer: authReducer,
+    colorReducer,
+    authReducer,
 });

@@ -44,7 +44,7 @@ class Saga implements ISaga {
         const username = action.payload.username
         const password = action.payload.password
 
-        const data = yield this.fetcher.post("signIn", {username, password})
+        const data = yield this.fetcher.signIn({username, password})
         yield put(this.actions.getLogin(data.data))
     }
 

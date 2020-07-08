@@ -1,29 +1,38 @@
 import ApiHelper from "./ApiHelper";
 import InteractionService from "./InteractionService";
+import {ITokenService} from "./typings/ITokenService";
+import {injectable} from "inversify";
 
 
-interface ITokenService {
-
-}
-
+@injectable()
 class TokenService implements ITokenService {
-    public jwt: JsonWebKey
-    public rt: JsonWebKey
+    private _accessToken: string
+    private _refreshToken: string
 
-    private _server: InteractionService
+    constructor(jwt: string, rt: string) {
+        this._accessToken = jwt
+        this._refreshToken = rt
+    }
 
-    constructor(jwt: JsonWebKey, rt: JsonWebKey, server: InteractionService) {
-        this.jwt = jwt
-        this.rt = rt
-        this._server = server
+    get accessToken(): string {
+        return this._accessToken;
+    }
+
+    set accessToken(value: string) {
+        this._accessToken = value;
+    }
+
+    get refreshToken(): string {
+        return this._refreshToken;
+    }
+
+    set refreshToken(value: string) {
+        this._refreshToken = value;
     }
 
     public longToken = () => {
         //this._server.post()
     }
-
-
-
 
 }
 

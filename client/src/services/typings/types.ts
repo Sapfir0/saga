@@ -3,7 +3,8 @@ const TYPES = {
     InteractionService: Symbol.for('InteractionService'),
     Actions: Symbol.for('Actions'),
     Saga: Symbol.for('Saga'),
-    LocalStorage: Symbol.for('LocalStorage')
+    LocalStorage: Symbol.for('LocalStorage'),
+    TokenService: Symbol.for('TokenService')
 }
 
 export { TYPES }
