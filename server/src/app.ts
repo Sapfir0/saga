@@ -48,7 +48,7 @@ app.get('/', function (req, res) {
     res.send('Hello World!');
 });
 
-const jwtLife = 60*30 // полчаса
+const jwtLife = 60 //*30 // полчаса
 const rtLife = 60*60*24 // сутки
 
 
@@ -83,11 +83,11 @@ app.post('/signIn',  urlencodedParser,  function (req, res) {
 });
 
 
-app.post('/longToken', urlencodedParser, checkHeaders, (req, res, next) => {
+app.post('/longToken', urlencodedParser,/* checkHeaders,*/ (req, res, next) => {
     const [jwtExpiresAt, rtExpiresAt] = getAbsoluteDates()
 
     const jwtToken = jwt.sign({ data: validUser }, secret, {
-        expiresIn: jwtExpiresAt,
+        expiresIn: jwtLife,
     });
 
     const rtToken = jwt.sign({}, secret, {expiresIn: rtLife})

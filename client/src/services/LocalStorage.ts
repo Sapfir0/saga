@@ -16,7 +16,8 @@ class LocalStorage implements ILocalStorage {
         localStorage.removeItem(field)
     }
 
-    set = (field: string, data: any) => {
+    set = (field: string, data: unknown) => {
+        console.log(data)
         localStorage.setItem(field, JSON.stringify(data))
     }
 }

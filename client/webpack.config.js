@@ -46,9 +46,7 @@ module.exports = ({
         progress: true,
         compress: true,
         hot: true,
-        historyApiFallback: {
-            index: 'index.html'
-        }
+        historyApiFallback: true
     },
     plugins: [
         new webpack.ProgressPlugin(),

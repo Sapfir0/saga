@@ -1,14 +1,13 @@
 import React, {useState} from "react";
 import {connect, useDispatch} from "react-redux";
 import Button from "../Button/Button";
-import {IColors} from "../../Store/typings";
+import {IColors, MouseClickPure, MouseClickWithId} from "../../typings/common";
 
 
 
-type MouseClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 
 interface IProps  {
-    onClick: MouseClick
+    onClick: any
     colors: IColors
 }
 

@@ -1,40 +1,26 @@
-import {statusCodes} from "./statusCodes";
-import {IApiHelper} from "./typings/IApiHelper";
+import {statusCodes} from "./others/statusCodes";
+import {IApiHelper, RouteInfo} from "./typings/IApiHelper";
 import {AxiosError, AxiosResponse} from "axios";
 import {injectable} from "inversify";
-import {SIGN_IN_URL} from "../config/routes";
+import ClientRoutes from "../config/clientRoutes";
+import {DTO} from "../typings/common";
+import {left, right} from "@sweet-monads/either";
+import {NetworkError} from "./errors/NetworkError";
 
 
 @injectable()
 class ApiHelper implements IApiHelper {
 
-    public request = async (promise: Promise<AxiosResponse>) => { // на самом деле, это должна быть генераторная функци но мне лень ее биндить ручками
-        let statusCode: number
-        let data: AxiosResponse
-        let isRequestCrashing: boolean = false
-
+    public request = async <T>(promise: Promise<AxiosResponse<T>>) => { // на самом деле, это должна быть генераторная функци но мне лень ее биндить ручками
         try {
-            console.log(promise)
-            data = await promise
+            const data = await promise
+            return right<NetworkError, AxiosResponse<T>>(data)
         }
         catch (e) {
             const error = {...e}
-            console.warn(error)
-            data = error.response
-            isRequestCrashing = error.isAxiosError
+            const message = this.parseCode(error.status)
+            return left<NetworkError, AxiosResponse<T>>(new NetworkError(message))
         }
-        finally {
-            statusCode = data!.status
-            const message = this.parseCode(statusCode)
-            console.log(message)
-        }
-
-        if (isRequestCrashing) {
-            return {url: SIGN_IN_URL}
-        }
-
-        return data
-
     }
 
     public parseCode = (code: number) => {
@@ -42,7 +28,7 @@ class ApiHelper implements IApiHelper {
             return statusCodes[code]
         }
         else {
-            return "Undefined error with your request"
+            return {message: "Undefined error with your request", redirectedUrl: ClientRoutes.NOT_FOUND}
         }
     }
 }

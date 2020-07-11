@@ -1,11 +1,16 @@
 import {AxiosResponse} from "axios";
-import {routeType} from "../../config/routes";
+import {DTO, RawPromisableDTO} from "../../typings/common";
+import {ClientRouteType} from "../../config/clientRoutes";
+import {Either} from "@sweet-monads/either";
+import {NetworkError} from "../errors/NetworkError";
 
-export type NeedToBeRedirected = {
-    url: string
+
+export interface RouteInfo {
+    message: string
+    redirectedUrl: ClientRouteType
 }
 
 export interface IApiHelper {
-    request: (promise: Promise<AxiosResponse>) => Promise<AxiosResponse | NeedToBeRedirected>
-    parseCode: (code: number) => string
+    request: (promise: Promise<AxiosResponse>) => Promise<Either<NetworkError, any>>
+    parseCode: (code: number) => RouteInfo
 }

@@ -3,7 +3,7 @@
     "target": "es6",
     "module": "esnext",
     "outDir": "build",
-    "rootDir": "src",
+    "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": false,
@@ -12,8 +12,7 @@
       "dom",
       "es6"
     ],
-    "allowJs": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -24,10 +23,18 @@
     "baseUrl": "src",
     "types": [
       "node",
-      "reflect-metadata"
+      "reflect-metadata",
+      "jest"
     ],
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "strictNullChecks": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true
   },
   "include": [
     "src"

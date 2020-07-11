@@ -1,12 +1,15 @@
 import {IRedirection} from "./typings/IRedirection";
 import {createBrowserHistory} from "history";
-import ROUTES, {routeType} from "../config/routes";
+import {injectable} from "inversify";
+import {ClientRouteType} from "../config/clientRoutes";
 
-const hist = createBrowserHistory()
-
+@injectable()
 class Redirection implements IRedirection {
-    public static redirect = (url: routeType) => {
-        hist.push(url.toString())
+    public history = createBrowserHistory()  // должен быть private
+
+    public redirect = (url: ClientRouteType) => {
+        console.log("редиректим через историю")
+        this.history.push(url.toString())
     }
 
 }
